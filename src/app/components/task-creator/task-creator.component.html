@@ -1,5 +1,20 @@
-<div>
+<div class="p-fluid p-grid p-formgrid">
     <form>
-        <p-select [options]="proyectos" [(ngModel)]="proyectoTarea" optionLabel="name" placeholder="Elige un proyecto" class="w-full md:w-56"/>
+        <div class="p-field p-col-12 p-md-4">
+            <p-select appendTo="body" [options]="proyectos" [(ngModel)]="proyectoTarea" optionLabel="nombreP" placeholder="Elige un proyecto"/>
+        </div>
+        <div class="p-field p-col-12 p-md-4">
+            <label for="nombreT"> Tarea: </label>
+            <input id="nombreT" type="text" pInputText [(ngModel)]="nombreTarea" placeholder="Nombre de la Tarea"/>
+        </div>
+        <div class="p-field p-col-12 p-md-4">
+            <p-calendar appendTo="body" [(ngModel)]="rangoFechas" [minDate]="fechaActual" selectionMode="range" [showIcon]="true"></p-calendar>
+        </div>
+        <div class="p-field p-col-12 p-md-4">
+            <p-select appendTo="body" [options]="prioridades" [(ngModel)]="prioridadTarea" placeholder="Define la prioridad de la tarea"/>
+        </div>
+        <div class="p-field p-col-12 p-md-4">
+            <p-button class="submit" label="Submit"/>
+        </div>
     </form>
 </div>
