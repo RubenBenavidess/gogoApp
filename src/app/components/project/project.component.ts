@@ -9,12 +9,7 @@ import { Proyecto } from '../../models/proyecto';
 })
 export class ProjectComponent {
 
-  proyecto: Proyecto;
-
-  constructor() {
-    this.proyecto = new Proyecto(1, 'Proyecto 1');
-  }
-
+  constructor() {}
 
 
 }
