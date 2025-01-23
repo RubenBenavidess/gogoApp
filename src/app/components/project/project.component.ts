@@ -12,13 +12,7 @@ import { TaskCreatorComponent } from "../task-creator/task-creator.component";
 })
 export class ProjectComponent {
 
-  proyecto: Proyecto;
+  constructor() {}
 
-  constructor() {
-    this.proyecto = new Proyecto(1, 'Proyecto 1');
-  }
-
-  ngOnInit(): void {
-  }
 
 }

@@ -4,17 +4,21 @@ import { Etiqueta } from "./etiqueta";
 export class Tarea{
     idT: number;
     nombreT: string;
-    fechaInicio: string;
-    fechaFin: string;
+    fechaInicio: Date;
+    fechaFin: Date;
     prioridad: string;
     etiquetas: Etiqueta[];
     colaboradores: Colaborador[];
     completado: boolean;
 
-    constructor(idT: number, nombreT: string, fechaInicio: string, fechaFin: string, prioridad: string, 
-        etiquetas: Etiqueta[], colaboradores: Colaborador[], completado: boolean) 
+    constructor(nombreT: string, fechaInicio: Date, fechaFin: Date, prioridad: string, 
+        etiquetas: Etiqueta[], colaboradores: Colaborador[], completado: boolean, idT?: number) 
     {
-        this.idT = idT;
+        if(idT)
+            this.idT = idT;
+        else(idT)
+            this.idT = -1;
+
         this.nombreT = nombreT;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;

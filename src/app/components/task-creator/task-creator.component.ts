@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
 import { SelectModule } from 'primeng/select';
 import { Button } from 'primeng/button';
@@ -6,7 +6,8 @@ import { FormsModule } from '@angular/forms';
 import {InputTextModule} from 'primeng/inputtext';
 import {CalendarModule} from 'primeng/calendar';
 import { Proyecto } from '../../models/proyecto';
-import { PrimeIcons } from 'primeng/api';
+import { Tarea } from '../../models/tarea';
+import { TareasService } from '../../services/tareas-service.service';
 
 @Component({
   selector: 'app-task-creator',
@@ -24,4 +25,10 @@ export class TaskCreatorComponent {
   fechaActual: Date = new Date();
   rangoFechas: Date[] = [];
 
+  constructor(private tareasService: TareasService){}
+
+  onSubmit(){
+    let nuevaTarea: Tarea = new Tarea(this.nombreTarea, this.rangoFechas[0], this.rangoFechas[1], this.prioridadTarea, [], [], false);
+    this.tareasService.addTarea(nuevaTarea);
+  }
 }

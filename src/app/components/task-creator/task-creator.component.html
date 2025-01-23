@@ -8,7 +8,7 @@
             <input id="nombreT" type="text" pInputText [(ngModel)]="nombreTarea" placeholder="Nombre de la Tarea"/>
         </div>
         <div class="p-field p-col-12 p-md-4">
-            <p-calendar appendTo="body" [(ngModel)]="rangoFechas" [minDate]="fechaActual" selectionMode="range" [showIcon]="true"></p-calendar>
+            <p-calendar appendTo="body" dateFormat="yy-mm-dd" [(ngModel)]="rangoFechas" [minDate]="fechaActual" selectionMode="range" [showIcon]="true"></p-calendar>
         </div>
         <div class="p-field p-col-12 p-md-4">
             <p-select appendTo="body" [options]="prioridades" [(ngModel)]="prioridadTarea" placeholder="Define la prioridad de la tarea"/>
