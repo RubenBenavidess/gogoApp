@@ -14,10 +14,13 @@ export class ProjectListComponent {
 
   proyectos: Proyecto[] = [];
 
-  constructor(private proyectosService: ProyectosService) { }
-
-  cargarTareas(){
-    this.proyectos = this.proyectosService.getProyectos();
+  constructor(private proyectosService: ProyectosService) {
+    this.proyectosService.proyectos$.subscribe((proyectos) => {
+      this.proyectos = proyectos;
+    });
   }
   
+  ngOnInit(){
+    this.proyectosService.fetchProyectos();
+  }
 }

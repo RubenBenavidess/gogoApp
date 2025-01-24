@@ -3,7 +3,7 @@
     @for (proyecto of proyectos; track proyecto.idP) {
 
         <div>
-            <p-accordion [value]="0" (onOpen)="cargarTareas()">
+            <p-accordion [value]="0">
                 <p-accordion-panel [value]="1" >
                     <p-accordion-header>{{ proyecto.nombreP }}</p-accordion-header>
                     <p-accordion-content>
@@ -13,7 +13,6 @@
             </p-accordion>
 
         </div>
-
     }
 
 </div>
