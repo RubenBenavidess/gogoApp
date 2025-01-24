@@ -16,4 +16,8 @@ export class AppComponent {
   showTaskCreator(): void{
     this.taskCreatorVisible = true;
   }
+
+  handleTaskCreatorClose(isClosed: boolean): void{
+    this.taskCreatorVisible = !isClosed;
+  }
 }

@@ -1,58 +1,63 @@
-<div class="p-fluid p-grid p-formgrid">
-    <form class="w-full max-w-md mx-auto space-y-4">
-        <!-- Proyecto -->
-        <div class="p-field">
-            <p-select 
-                appendTo="body" 
-                [options]="proyectos" 
-                [(ngModel)]="proyectoTarea" 
-                optionLabel="nombreP" 
-                placeholder="Elige un proyecto" 
-                class="w-full"
-            ></p-select>
-            <p-button variant="text" label="Crear un Proyecto nuevo"></p-button>
-        </div>
-        
-        <!-- Nombre de la Tarea -->
-        <div class="p-field">
-            <label for="nombreT" class="block text-sm font-medium text-gray-700">Tarea:</label>
-            <input 
-                id="nombreT" 
-                type="text" 
-                pInputText 
-                [(ngModel)]="nombreTarea" 
-                placeholder="Nombre de la Tarea" 
-                class="w-full"
-            />
-        </div>
-        
-        <!-- Rango de Fechas -->
-        <div class="p-field">
-            <p-calendar 
-                appendTo="body" 
-                dateFormat="yy-mm-dd" 
-                [(ngModel)]="rangoFechas" 
-                [minDate]="fechaActual" 
-                selectionMode="range" 
-                [showIcon]="true" 
-                class="w-full"
-            ></p-calendar>
-        </div>
-        
-        <!-- Prioridad -->
-        <div class="p-field">
-            <p-select 
-                appendTo="body" 
-                [options]="prioridades" 
-                [(ngModel)]="prioridadTarea" 
-                placeholder="Define la prioridad de la tarea" 
-                class="w-full"
-            ></p-select>
-        </div>
-        
-        <!-- Botón Submit -->
-        <div class="p-field flex justify-center">
-            <p-button class="w-full" label="Crear"></p-button>
-        </div>
-    </form>
-</div>
+<p-dialog (onHide)="onCloseDialog()" header="Crear Tarea" [(visible)]="taskCreatorVisible" [baseZIndex]="10000" [style]="{width: '100%', maxWidth: '500px', margin: '0 auto'}">
+    <div class="p-fluid p-grid p-formgrid">
+        <form class="w-full max-w-md mx-auto space-y-4">
+            <!-- Proyecto -->
+            <div class="p-field">
+                <p-select 
+                    appendTo="body"
+                    [options]="proyectos" 
+                    [(ngModel)]="proyectoTarea" 
+                    optionLabel="nombreP" 
+                    placeholder="Elige un proyecto" 
+                    class="w-full"
+                ></p-select>
+                <p-button (click)="showProjectCreator()" variant="text" label="Crear un Proyecto nuevo"></p-button>
+            </div>
+            
+            <!-- Nombre de la Tarea -->
+            <div class="p-field">
+                <label for="nombreT" class="block text-sm font-medium text-gray-700">Tarea:</label>
+                <input 
+                    id="nombreT"
+                    name="nombreT" 
+                    type="text" 
+                    pInputText 
+                    [(ngModel)]="nombreTarea" 
+                    placeholder="Nombre de la Tarea" 
+                    class="w-full"
+                />
+            </div>
+            
+            <!-- Rango de Fechas -->
+            <div class="p-field">
+                <p-calendar 
+                    appendTo="body" 
+                    dateFormat="yy-mm-dd" 
+                    [(ngModel)]="rangoFechas" 
+                    [minDate]="fechaActual" 
+                    selectionMode="range" 
+                    [showIcon]="true" 
+                    class="w-full"
+                ></p-calendar>
+            </div>
+            
+            <!-- Prioridad -->
+            <div class="p-field">
+                <p-select 
+                    appendTo="body" 
+                    [options]="prioridades" 
+                    [(ngModel)]="prioridadTarea" 
+                    placeholder="Define la prioridad de la tarea" 
+                    class="w-full"
+                ></p-select>
+            </div>
+            
+            <!-- Botón Submit -->
+            <div class="p-field flex justify-center">
+                <p-button class="w-full" (click)="onSubmit()" label="Crear"></p-button>
+            </div>
+        </form>
+    </div>
+</p-dialog>
+
+<app-project-creator [projectCreatorVisible]="projectCreatorVisible" (onClose)="handleProjectCreatorClose()"></app-project-creator>
