@@ -18,22 +18,23 @@ export class TareasService {
   }
 
   // Agregar una tarea a un proyecto
-  addTarea(idP: number, tarea: Tarea): Observable<Tarea> {
-    return this.http.post<Tarea>(`${this.apiUrl}/${idP}/tareas`, tarea, {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' },
-      ),
-    });
-  }
+  addTarea(idP: number, tarea: Tarea): void {
+      this.http.post<Tarea>(`${this.apiUrl}/${idP}/tareas`, tarea)
+      .subscribe({
+        next: (tarea)=>{},
+        error: (error) => console.error('Error al crear tarea:', error)
+      });
+  };
+  
 
   // Actualizar una tarea dentro de un proyecto
-  updateTarea(idP: number, idT: number, tarea: Tarea): Observable<Tarea> {
-    return this.http.put<Tarea>(
+  updateTarea(idP: number, idT: number, tarea: Tarea): void {
+    this.http.put<Tarea>(
       `${this.apiUrl}/${idP}/tareas/${idT}`,
-      tarea,
-      {
-        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      }
-    );
+      tarea).subscribe({
+        next: (tarea)=>{},
+        error: (error) => console.error('Error al actualizar tarea:', error)
+      });
   }
 
   // Eliminar una tarea dentro de un proyecto
