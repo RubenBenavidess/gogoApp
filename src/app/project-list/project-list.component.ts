@@ -16,7 +16,7 @@ export class ProjectListComponent {
 
   constructor(private proyectosService: ProyectosService) { }
 
-  ngOnInit() {
+  cargarTareas(){
     this.proyectos = this.proyectosService.getProyectos();
   }
   
