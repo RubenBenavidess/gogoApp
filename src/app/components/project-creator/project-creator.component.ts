@@ -6,6 +6,7 @@ import { InputText } from 'primeng/inputtext';
 import { CommonModule } from '@angular/common';
 import { Colaborador } from '../../models/colaborador';
 import { ProyectosService } from '../../services/proyectos-service.service';
+import { Proyecto } from '../../models/proyecto';
 
 @Component({
   selector: 'app-project-creator',
@@ -22,6 +23,8 @@ export class ProjectCreatorComponent {
   
   @Input() projectCreatorVisible: boolean = false;
   @Output() onClose = new EventEmitter<void>();
+
+  constructor(private proyectosService: ProyectosService) {}
 
   onCloseDialog() {
     this.projectCreatorVisible = false;
@@ -44,10 +47,15 @@ export class ProjectCreatorComponent {
 
   createProject() {
     if (this.nombreProyecto.trim()) {
-      const nuevoProyecto = {
-        nombre: this.nombreProyecto,
-        colaboradores: this.colaboradores,
-      };
+      const nuevoProyecto = new Proyecto(
+        this.nombreProyecto,
+        [], // Cambiar según la estructura de Proyecto
+        this.colaboradores
+      );
+      
+      // Suscripción al servicio para agregar el proyecto
+      this.proyectosService.addProyecto(nuevoProyecto);
+
       this.resetForm();
       this.projectCreatorVisible = false;
       this.onClose.emit();

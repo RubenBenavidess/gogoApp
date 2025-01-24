@@ -6,7 +6,7 @@
     [style]="{width: '100%', maxWidth: '600px', margin: '0 auto'}"
 >
     <div class="p-fluid p-grid p-formgrid">
-        <form class="w-full max-w-md mx-auto space-y-4">
+        <form class="w-full max-w-lg mx-auto space-y-4">
             <!-- Nombre del Proyecto -->
             <div class="p-field">
                 <label for="nombreP" class="block text-sm font-medium text-gray-700">Proyecto:</label>
@@ -32,7 +32,7 @@
                         type="text"
                         [(ngModel)]="nombreColaborador" 
                         placeholder="Nombre del Colaborador" 
-                        class="w-50"
+                        class="w-60"
                     />
                     <input 
                         id="correo" 
@@ -41,7 +41,7 @@
                         pInputText 
                         [(ngModel)]="correoColaborador" 
                         placeholder="alguien@ejemplo.com" 
-                        class="w-50 ml-8"
+                        class="w-60 ml-8"
                     />
                 </div>
             </div>

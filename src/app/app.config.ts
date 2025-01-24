@@ -2,6 +2,7 @@ import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
 import { routes } from './app.routes';
 import Aura from '@primeng/themes/aura';
 import { definePreset } from '@primeng/themes';
@@ -40,7 +41,8 @@ export const appConfig: ApplicationConfig = {
       },
       ripple: true,
       
-    })
+    }),
+    provideHttpClient()
   ]
 };
 
