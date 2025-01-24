@@ -28,7 +28,6 @@ export class TaskListComponent {
   actual = new Date();
   prioridades: string[] = [];
 
-  constructor(private cdr: ChangeDetectorRef) {}
 
   cargarPrioridades(){
     for(let tarea of this.tareas){
@@ -79,14 +78,32 @@ export class TaskListComponent {
   }
 
   agruparTareas(){
-    if(this.agrupacion.prioridad){
-      this.limpiarAgrupadas();
-      this.cargarPrioridades();
-      for(let prioridad of this.prioridades){
-        this.tareasAgrupadas.push(this.tareas.filter(tarea => tarea.prioridad == prioridad));
-      }
+    console.log(this.agrupacion.prioridad);
+    this.limpiarAgrupadas();
+    this.cargarPrioridades();
+    for(let prioridad of this.prioridades){
+      this.tareasAgrupadas.push(this.tareas.filter(tarea => tarea.prioridad == prioridad));
     }
-    
+    if(this.estado.pendiente || this.estado.enCurso || this.estado.completado){
+      this.filtrarAgrupadas();
+    }   
+  }
+
+  getColaboradores(tarea: Tarea){
+    let colaboradores = '';
+    for (let colaborador of tarea.colaboradores) {
+        colaboradores += '\n' + colaborador.nombreC;
+    }
+    console.log(colaboradores);
+    return colaboradores;
+  }
+
+  getEtiquetas(tarea: Tarea){
+    let etiquetas = '';
+    for (let etiqueta of tarea.etiquetas) {
+        etiquetas += '\n' + etiqueta.nombreE;
+    }
+    return etiquetas;
   }
 
 }

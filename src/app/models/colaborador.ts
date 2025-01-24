@@ -12,4 +12,5 @@ export class Colaborador{
         this.nombreC = nombreC;
         this.correo = correo;
     }
+
 }

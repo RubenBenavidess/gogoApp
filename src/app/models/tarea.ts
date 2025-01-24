@@ -1,7 +1,7 @@
 import { Colaborador } from "./colaborador";
 import { Etiqueta } from "./etiqueta";
 
-export class Tarea{
+export class Tarea {
     idT: number;
     nombreT: string;
     fechaInicio: Date;
@@ -11,13 +11,18 @@ export class Tarea{
     colaboradores: Colaborador[];
     completado: boolean;
 
-    constructor(nombreT: string, fechaInicio: Date, fechaFin: Date, prioridad: string, 
-        etiquetas: Etiqueta[], colaboradores: Colaborador[], completado: boolean, idT?: number) 
-    {
-        if(idT)
-            this.idT = idT;
-        else(idT)
-            this.idT = -1;
+    constructor(
+        nombreT: string,
+        fechaInicio: Date,
+        fechaFin: Date,
+        prioridad: string,
+        etiquetas: Etiqueta[],
+        colaboradores: Colaborador[],
+        completado: boolean,
+        idT?: number
+    ) {
+        if (idT) this.idT = idT;
+        else this.idT = -1;
 
         this.nombreT = nombreT;
         this.fechaInicio = fechaInicio;

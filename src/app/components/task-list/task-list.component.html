@@ -14,9 +14,9 @@
     </div>
     @if(filtrado){
         <div>
-            <input type="checkbox" [(ngModel)]="estado.pendiente" (change)="filtrarTareas(tareasFiltradas, tareas); agrupacion.prioridad ? filtrarAgrupadas() : null">Pendiente
-            <input type="checkbox" [(ngModel)]="estado.enCurso" (change)="filtrarTareas(tareasFiltradas, tareas); agrupacion.prioridad ? filtrarAgrupadas() : null ">En curso
-            <input type="checkbox" [(ngModel)]="estado.completado" (change)="filtrarTareas(this.tareasFiltradas, tareas); agrupacion.prioridad ? filtrarAgrupadas() : null">Completado
+            <input type="checkbox" [(ngModel)]="estado.pendiente" (change)="filtrarTareas(tareasFiltradas, tareas); agrupacion.prioridad ? agruparTareas() : null">Pendiente
+            <input type="checkbox" [(ngModel)]="estado.enCurso" (change)="filtrarTareas(tareasFiltradas, tareas); agrupacion.prioridad ? agruparTareas() : null ">En curso
+            <input type="checkbox" [(ngModel)]="estado.completado" (change)="filtrarTareas(tareasFiltradas, tareas); agrupacion.prioridad ? agruparTareas() : null">Completado
         </div>
     }
     @if(agrupado){
@@ -65,7 +65,7 @@
                                 {{tareaDe.nombreT}}
                             </td>
                             <td>
-                                {{tareaDe.colaboradores}}
+                                {{getColaboradores(tareaDe)}}
                             </td>
                             <td>
                                 {{tareaDe.fechaInicio}}
@@ -83,7 +83,7 @@
                                 }
                             </td>
                             <td>
-                                {{tareaDe.etiquetas}}
+                                {{getEtiquetas(tareaDe)}}
                             </td>
                             <td>
                                 {{tareaDe.prioridad}}
@@ -103,7 +103,7 @@
                                     {{tarea.nombreT}}
                                 </td>
                                 <td>
-                                    {{tarea.colaboradores}}
+                                    {{getColaboradores(tarea)}}
                                 </td>
                                 <td>
                                     {{tarea.fechaInicio}}
@@ -121,7 +121,7 @@
                                     }
                                 </td>
                                 <td>
-                                    {{tarea.etiquetas}}
+                                    {{getEtiquetas(tarea)}}
                                 </td>
                                 <td>
                                     {{tarea.prioridad}}
@@ -139,7 +139,7 @@
                                     {{tarea.nombreT}}
                                 </td>
                                 <td>
-                                    {{tarea.colaboradores}}
+                                    {{getColaboradores(tarea)}}
                                 </td>
                                 <td>
                                     {{tarea.fechaInicio}}
@@ -157,7 +157,7 @@
                                     }
                                 </td>
                                 <td>
-                                    {{tarea.etiquetas}}
+                                    {{getEtiquetas(tarea)}}
                                 </td>
                                 <td>
                                     {{tarea.prioridad}}
