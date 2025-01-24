@@ -1,18 +1,9 @@
-<div>
-
-    @for (proyecto of proyectos; track proyecto.idP) {
-
-        <div>
-            <p-accordion [value]="0">
-                <p-accordion-panel [value]="1" >
-                    <p-accordion-header>{{ proyecto.nombreP }}</p-accordion-header>
-                    <p-accordion-content>
-                        <app-task-list [tareas]="proyecto.tareas"></app-task-list>
-                    </p-accordion-content>
-                </p-accordion-panel>
-            </p-accordion>
-
-        </div>
-    }
-
+<div class="space-y-4">
+    <div *ngFor="let proyecto of proyectos; trackBy: trackById" class="border rounded shadow p-4">
+        <p-accordion>
+            <p-accordionTab header="{{ proyecto.nombreP }}">
+                <app-task-list [tareas]="proyecto.tareas" class="mt-2"></app-task-list>
+            </p-accordionTab>
+        </p-accordion>
+    </div>
 </div>

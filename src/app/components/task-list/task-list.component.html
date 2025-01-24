@@ -1,176 +1,94 @@
-<div>
+<div class="space-y-6">
+    <!-- Controles de Filtrado y Agrupación -->
+    <div class="flex space-x-4 justify-start">
+        <p-button 
+            label="Filtrar" 
+            class="p-button-outlined"
+            (click)="filtrado = !filtrado">
+        </p-button>
+        <p-button 
+            label="Agrupar" 
+            class="p-button-outlined"
+            (click)="agrupado = !agrupado">
+        </p-button>
+    </div>
 
-    <div>
-        <div>
-            <button (click)="filtrado = filtrado == false ? true : false;">
-                Filtrar
-            </button>
-        </div>
-        <div>
-            <button (click)="agrupado = agrupado ? false : true;">
-                Agrupar
-            </button>
+    <!-- Opciones de Filtrado -->
+    <div *ngIf="filtrado" class="space-y-2">
+        <div class="flex space-x-4">
+            <p-checkbox 
+                label="Pendiente" 
+                [(ngModel)]="estado.pendiente" 
+                (onChange)="filtrarTareas(tareasFiltradas, tareas); agrupacion.prioridad ? agruparTareas() : null">
+            </p-checkbox>
+            <p-checkbox 
+                label="En Curso" 
+                [(ngModel)]="estado.enCurso" 
+                (onChange)="filtrarTareas(tareasFiltradas, tareas); agrupacion.prioridad ? agruparTareas() : null">
+            </p-checkbox>
+            <p-checkbox 
+                label="Completado" 
+                [(ngModel)]="estado.completado" 
+                (onChange)="filtrarTareas(tareasFiltradas, tareas); agrupacion.prioridad ? agruparTareas() : null">
+            </p-checkbox>
         </div>
     </div>
-    @if(filtrado){
-        <div>
-            <input type="checkbox" [(ngModel)]="estado.pendiente" (change)="filtrarTareas(tareasFiltradas, tareas); agrupacion.prioridad ? agruparTareas() : null">Pendiente
-            <input type="checkbox" [(ngModel)]="estado.enCurso" (change)="filtrarTareas(tareasFiltradas, tareas); agrupacion.prioridad ? agruparTareas() : null ">En curso
-            <input type="checkbox" [(ngModel)]="estado.completado" (change)="filtrarTareas(tareasFiltradas, tareas); agrupacion.prioridad ? agruparTareas() : null">Completado
-        </div>
-    }
-    @if(agrupado){
-        <div>
-            <input type="checkbox" [(ngModel)]="agrupacion.prioridad" (change)="agruparTareas()">Prioridad
-        </div>
-    }
-    
-    <table>
 
-        <thead>
+    <!-- Opciones de Agrupación -->
+    <div *ngIf="agrupado" class="space-y-2">
+        <p-checkbox 
+            label="Agrupar por Prioridad" 
+            [(ngModel)]="agrupacion.prioridad" 
+            (onChange)="agruparTareas()">
+        </p-checkbox>
+    </div>
 
-            <tr>
-                <th>
-                    Tarea
-                </th>
-                <th>
-                    Colaboradores
-                </th>
-                <th>
-                    Fecha de inicio
-                </th>
-                <th>
-                    Fecha de fin
-                </th>
-                <th>
-                    Estado
-                </th>
-                <th>
-                    Etiquetas
-                </th>
-                <th>
-                    Prioridad
-                </th>
-            </tr>
-
-        </thead>
-
-        @if(agrupacion.prioridad){
-
-            @for(tareaAgrupada of tareasAgrupadas; track $index){
-                <tbody>
-                    @for(tareaDe of tareaAgrupada; track tareaDe.idT){
-                        <tr>
-                            <td>
-                                {{tareaDe.nombreT}}
-                            </td>
-                            <td>
-                                {{getColaboradores(tareaDe)}}
-                            </td>
-                            <td>
-                                {{tareaDe.fechaInicio}}
-                            </td>
-                            <td>
-                                {{tareaDe.fechaFin}}
-                            </td>
-                            <td>
-                                @if( tareaDe.fechaInicio > actual && !tareaDe.completado){
-                                    Pendiente
-                                }@else if (actual > tareaDe.fechaInicio && actual < tareaDe.fechaFin && !tareaDe.completado) {
-                                    En Curso
-                                }@else if(actual > tareaDe.fechaFin && tareaDe.completado){
-                                    Completado
-                                }
-                            </td>
-                            <td>
-                                {{getEtiquetas(tareaDe)}}
-                            </td>
-                            <td>
-                                {{tareaDe.prioridad}}
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            }
-
-        }@else {
-            <tbody>
-                @if(estado.pendiente || estado.completado || estado.enCurso){
-                    @for (tarea of tareasFiltradas; track tarea.idT) {
-                        <tbody>
-                            <tr>
-                                <td>
-                                    {{tarea.nombreT}}
-                                </td>
-                                <td>
-                                    {{getColaboradores(tarea)}}
-                                </td>
-                                <td>
-                                    {{tarea.fechaInicio}}
-                                </td>
-                                <td>
-                                    {{tarea.fechaFin}}
-                                </td>
-                                <td>
-                                    @if( tarea.fechaInicio > actual && !tarea.completado){
-                                        Pendiente
-                                    }@else if (actual > tarea.fechaInicio && actual < tarea.fechaFin && !tarea.completado) {
-                                        En Curso
-                                    }@else if(actual > tarea.fechaFin && tarea.completado){
-                                        Completado
-                                    }
-                                </td>
-                                <td>
-                                    {{getEtiquetas(tarea)}}
-                                </td>
-                                <td>
-                                    {{tarea.prioridad}}
-                                </td>
-                            </tr>
-                            
-                        </tbody>
-    
-                    }
-                }@else {
-                    @for (tarea of tareas; track tarea.idT) {
-                        <tbody>
-                            <tr>
-                                <td>
-                                    {{tarea.nombreT}}
-                                </td>
-                                <td>
-                                    {{getColaboradores(tarea)}}
-                                </td>
-                                <td>
-                                    {{tarea.fechaInicio}}
-                                </td>
-                                <td>
-                                    {{tarea.fechaFin}}
-                                </td>
-                                <td>
-                                    @if( tarea.fechaInicio > actual && !tarea.completado){
-                                        Pendiente
-                                    }@else if (actual > tarea.fechaInicio && actual < tarea.fechaFin && !tarea.completado) {
-                                        En Curso
-                                    }@else if(actual > tarea.fechaFin && tarea.completado){
-                                        Completado
-                                    }
-                                </td>
-                                <td>
-                                    {{getEtiquetas(tarea)}}
-                                </td>
-                                <td>
-                                    {{tarea.prioridad}}
-                                </td>
-                            </tr>
-                            
-                        </tbody>
-                    }
-                }
-            </tbody>    
-        }        
-
-    </table>
-
-
+    <!-- Tabla de Tareas -->
+    <div class="overflow-auto">
+        <table class="table-auto border-collapse w-full text-left">
+            <thead class="bg-gray-200">
+                <tr>
+                    <th class="p-2">Tarea</th>
+                    <th class="p-2">Colaboradores</th>
+                    <th class="p-2">Fecha de Inicio</th>
+                    <th class="p-2">Fecha de Fin</th>
+                    <th class="p-2">Estado</th>
+                    <th class="p-2">Etiquetas</th>
+                    <th class="p-2">Prioridad</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="agrupacion.prioridad">
+                <ng-container *ngFor="let tareaAgrupada of tareasAgrupadas; trackBy: trackByIndex">
+                    <tr *ngFor="let tareaDe of tareaAgrupada; trackBy: trackById">
+                        <td class="p-2">{{ tareaDe.nombreT }}</td>
+                        <td class="p-2">{{ getColaboradores(tareaDe) }}</td>
+                        <td class="p-2">{{ tareaDe.fechaInicio }}</td>
+                        <td class="p-2">{{ tareaDe.fechaFin }}</td>
+                        <td class="p-2">
+                            <span *ngIf="tareaDe.fechaInicio > actual && !tareaDe.completado">Pendiente</span>
+                            <span *ngIf="actual > tareaDe.fechaInicio && actual < tareaDe.fechaFin && !tareaDe.completado">En Curso</span>
+                            <span *ngIf="actual > tareaDe.fechaFin && tareaDe.completado">Completado</span>
+                        </td>
+                        <td class="p-2">{{ getEtiquetas(tareaDe) }}</td>
+                        <td class="p-2">{{ tareaDe.prioridad }}</td>
+                    </tr>
+                </ng-container>
+            </tbody>
+            <tbody *ngIf="!agrupacion.prioridad">
+                <tr *ngFor="let tarea of estado.pendiente || estado.enCurso || estado.completado ? tareasFiltradas : tareas; trackBy: trackById">
+                    <td class="p-2">{{ tarea.nombreT }}</td>
+                    <td class="p-2">{{ getColaboradores(tarea) }}</td>
+                    <td class="p-2">{{ tarea.fechaInicio }}</td>
+                    <td class="p-2">{{ tarea.fechaFin }}</td>
+                    <td class="p-2">
+                        <span *ngIf="tarea.fechaInicio > actual && !tarea.completado">Pendiente</span>
+                        <span *ngIf="actual > tarea.fechaInicio && actual < tarea.fechaFin && !tarea.completado">En Curso</span>
+                        <span *ngIf="actual > tarea.fechaFin && tarea.completado">Completado</span>
+                    </td>
+                    <td class="p-2">{{ getEtiquetas(tarea) }}</td>
+                    <td class="p-2">{{ tarea.prioridad }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

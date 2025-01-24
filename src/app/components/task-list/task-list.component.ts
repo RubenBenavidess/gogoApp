@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { Tarea } from '../../models/tarea';
 import { FormsModule } from '@angular/forms';
-import { ChangeDetectorRef } from '@angular/core';
+import { Button } from 'primeng/button';
 
 @Component({
   selector: 'app-task-list',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, Button],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.css'
 })
