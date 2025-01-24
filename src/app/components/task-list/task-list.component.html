@@ -1,1 +1,176 @@
-<p>task-list works!</p>
+<div>
+
+    <div>
+        <div>
+            <button (click)="filtrado = filtrado == false ? true : false;">
+                Filtrar
+            </button>
+        </div>
+        <div>
+            <button (click)="agrupado = agrupado ? false : true;">
+                Agrupar
+            </button>
+        </div>
+    </div>
+    @if(filtrado){
+        <div>
+            <input type="checkbox" [(ngModel)]="estado.pendiente" (change)="filtrarTareas(tareasFiltradas, tareas); agrupacion.prioridad ? filtrarAgrupadas() : null">Pendiente
+            <input type="checkbox" [(ngModel)]="estado.enCurso" (change)="filtrarTareas(tareasFiltradas, tareas); agrupacion.prioridad ? filtrarAgrupadas() : null ">En curso
+            <input type="checkbox" [(ngModel)]="estado.completado" (change)="filtrarTareas(this.tareasFiltradas, tareas); agrupacion.prioridad ? filtrarAgrupadas() : null">Completado
+        </div>
+    }
+    @if(agrupado){
+        <div>
+            <input type="checkbox" [(ngModel)]="agrupacion.prioridad" (change)="agruparTareas()">Prioridad
+        </div>
+    }
+    
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>
+                    Tarea
+                </th>
+                <th>
+                    Colaboradores
+                </th>
+                <th>
+                    Fecha de inicio
+                </th>
+                <th>
+                    Fecha de fin
+                </th>
+                <th>
+                    Estado
+                </th>
+                <th>
+                    Etiquetas
+                </th>
+                <th>
+                    Prioridad
+                </th>
+            </tr>
+
+        </thead>
+
+        @if(agrupacion.prioridad){
+
+            @for(tareaAgrupada of tareasAgrupadas; track $index){
+                <tbody>
+                    @for(tareaDe of tareaAgrupada; track tareaDe.idT){
+                        <tr>
+                            <td>
+                                {{tareaDe.nombreT}}
+                            </td>
+                            <td>
+                                {{tareaDe.colaboradores}}
+                            </td>
+                            <td>
+                                {{tareaDe.fechaInicio}}
+                            </td>
+                            <td>
+                                {{tareaDe.fechaFin}}
+                            </td>
+                            <td>
+                                @if( tareaDe.fechaInicio > actual && !tareaDe.completado){
+                                    Pendiente
+                                }@else if (actual > tareaDe.fechaInicio && actual < tareaDe.fechaFin && !tareaDe.completado) {
+                                    En Curso
+                                }@else if(actual > tareaDe.fechaFin && tareaDe.completado){
+                                    Completado
+                                }
+                            </td>
+                            <td>
+                                {{tareaDe.etiquetas}}
+                            </td>
+                            <td>
+                                {{tareaDe.prioridad}}
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            }
+
+        }@else {
+            <tbody>
+                @if(estado.pendiente || estado.completado || estado.enCurso){
+                    @for (tarea of tareasFiltradas; track tarea.idT) {
+                        <tbody>
+                            <tr>
+                                <td>
+                                    {{tarea.nombreT}}
+                                </td>
+                                <td>
+                                    {{tarea.colaboradores}}
+                                </td>
+                                <td>
+                                    {{tarea.fechaInicio}}
+                                </td>
+                                <td>
+                                    {{tarea.fechaFin}}
+                                </td>
+                                <td>
+                                    @if( tarea.fechaInicio > actual && !tarea.completado){
+                                        Pendiente
+                                    }@else if (actual > tarea.fechaInicio && actual < tarea.fechaFin && !tarea.completado) {
+                                        En Curso
+                                    }@else if(actual > tarea.fechaFin && tarea.completado){
+                                        Completado
+                                    }
+                                </td>
+                                <td>
+                                    {{tarea.etiquetas}}
+                                </td>
+                                <td>
+                                    {{tarea.prioridad}}
+                                </td>
+                            </tr>
+                            
+                        </tbody>
+    
+                    }
+                }@else {
+                    @for (tarea of tareas; track tarea.idT) {
+                        <tbody>
+                            <tr>
+                                <td>
+                                    {{tarea.nombreT}}
+                                </td>
+                                <td>
+                                    {{tarea.colaboradores}}
+                                </td>
+                                <td>
+                                    {{tarea.fechaInicio}}
+                                </td>
+                                <td>
+                                    {{tarea.fechaFin}}
+                                </td>
+                                <td>
+                                    @if( tarea.fechaInicio > actual && !tarea.completado){
+                                        Pendiente
+                                    }@else if (actual > tarea.fechaInicio && actual < tarea.fechaFin && !tarea.completado) {
+                                        En Curso
+                                    }@else if(actual > tarea.fechaFin && tarea.completado){
+                                        Completado
+                                    }
+                                </td>
+                                <td>
+                                    {{tarea.etiquetas}}
+                                </td>
+                                <td>
+                                    {{tarea.prioridad}}
+                                </td>
+                            </tr>
+                            
+                        </tbody>
+                    }
+                }
+            </tbody>    
+        }        
+
+    </table>
+
+
+</div>

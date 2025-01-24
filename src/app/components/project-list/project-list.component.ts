@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { ProyectosService } from '../services/proyectos-service.service';
+import { ProyectosService } from '../../services/proyectos-service.service';
 import { AccordionModule } from 'primeng/accordion';
-import { Proyecto } from '../models/proyecto';
-import { TaskListComponent } from '../components/task-list/task-list.component';
+import { Proyecto } from '../../models/proyecto';
+import { TaskListComponent } from '../task-list/task-list.component';
 
 @Component({
   selector: 'app-project-list',
