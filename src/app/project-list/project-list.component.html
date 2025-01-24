@@ -1,0 +1,19 @@
+<div>
+
+    @for (proyecto of proyectos; track proyecto.idP) {
+
+        <div>
+            <p-accordion [value]="0" (onOpen)="cargarTareas()">
+                <p-accordion-panel [value]="1" >
+                    <p-accordion-header>{{ proyecto.nombreP }}</p-accordion-header>
+                    <p-accordion-content>
+                        <!-- <app-task-list [tareas]="proyecto.tareas"></app-task-list> -->
+                    </p-accordion-content>
+                </p-accordion-panel>
+            </p-accordion>
+
+        </div>
+
+    }
+
+</div>
