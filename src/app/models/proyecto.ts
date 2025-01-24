@@ -7,8 +7,11 @@ export class Proyecto{
     tareas: Tarea[];
     colaboradores: Colaborador[];
 
-    constructor(idP: number, nombreP: string, tareas: Tarea[], colaboradores: Colaborador[]) {
-        this.idP = idP;
+    constructor(nombreP: string, tareas: Tarea[], colaboradores: Colaborador[], idP?: number,) {
+        if(idP)
+            this.idP = idP;
+        else
+            this.idP = -1;
         this.nombreP = nombreP;
         this.tareas = tareas;
         this.colaboradores = colaboradores;

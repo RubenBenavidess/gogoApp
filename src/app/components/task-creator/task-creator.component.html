@@ -30,15 +30,20 @@
             
             <!-- Rango de Fechas -->
             <div class="p-field">
-                <p-calendar 
-                    appendTo="body" 
-                    dateFormat="yy-mm-dd" 
-                    [(ngModel)]="rangoFechas" 
-                    [minDate]="fechaActual" 
-                    selectionMode="range" 
-                    [showIcon]="true" 
-                    class="w-full"
-                ></p-calendar>
+                <label for="rangoFechas" class="mx-2">Fecha Inicio</label>
+                <div class="inline text-end">
+                    <p-calendar class="w-full"
+                        id="rangoFechas"
+                        name="rangoFechas"
+                        appendTo="body" 
+                        dateFormat="yy-mm-dd" 
+                        [(ngModel)]="rangoFechas" 
+                        [minDate]="fechaActual" 
+                        selectionMode="range" 
+                        [showIcon]="true" 
+                        class="w-full"
+                    ></p-calendar>
+                </div>
             </div>
             
             <!-- Prioridad -->
