@@ -65,10 +65,12 @@ export class TaskCreatorComponent {
         this.prioridadTarea,
         [],
         [],
-        false
+        false    
       );
-      this.tareasService.addTarea(nuevaTarea);
 
+      nuevaTarea.idT = this.proyectoTarea.tareas.length;
+      console.log(nuevaTarea);
+      this.tareasService.addTarea(this.proyectoTarea.idP, nuevaTarea);
       this.taskCreatorVisible = false;
       this.onClose.emit(true);
     } else {

@@ -33,7 +33,7 @@ export class ProjectCreatorComponent {
 
   addColaborador() {
     if (this.nombreColaborador.trim() && this.correoColaborador.trim()) {
-      this.colaboradores.push(new Colaborador(this.nombreColaborador, this.correoColaborador));
+      this.colaboradores.push(new Colaborador(this.nombreColaborador, this.correoColaborador, this.colaboradores.length));
       this.nombreColaborador = '';
       this.correoColaborador = '';
     } else {

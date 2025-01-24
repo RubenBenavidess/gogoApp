@@ -3,7 +3,10 @@
         <form class="w-full max-w-md mx-auto space-y-4">
             <!-- Proyecto -->
             <div class="p-field">
+                <label for="proyectoTarea" hidden></label>
                 <p-select 
+                    id="proyectoTarea"
+                    name="proyectoTarea"
                     appendTo="body"
                     [options]="proyectos" 
                     [(ngModel)]="proyectoTarea" 
