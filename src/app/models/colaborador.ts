@@ -3,8 +3,12 @@ export class Colaborador{
     nombreC: string;
     correo: string;
 
-    constructor(idC: number, nombreC: string, correo: string) {
-        this.idC = idC;
+    constructor(nombreC: string, correo: string, idC?: number) {
+        if(idC)
+            this.idC = idC
+        else
+            this.idC = -1;
+        
         this.nombreC = nombreC;
         this.correo = correo;
     }
