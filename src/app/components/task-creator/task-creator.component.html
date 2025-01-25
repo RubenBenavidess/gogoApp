@@ -51,7 +51,10 @@
             
             <!-- Prioridad -->
             <div class="p-field">
+                <label for="prioridadTarea" hidden></label>
                 <p-select 
+                    id="prioridadTarea"
+                    name="prioridadTarea"
                     appendTo="body" 
                     [options]="prioridades" 
                     [(ngModel)]="prioridadTarea" 

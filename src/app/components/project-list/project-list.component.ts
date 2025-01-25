@@ -3,10 +3,11 @@ import { ProyectosService } from '../../services/proyectos-service.service';
 import { AccordionModule } from 'primeng/accordion';
 import { Proyecto } from '../../models/proyecto';
 import { TaskListComponent } from '../task-list/task-list.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-project-list',
-  imports: [AccordionModule, TaskListComponent],
+  imports: [AccordionModule, TaskListComponent, CommonModule],
   templateUrl: './project-list.component.html',
   styleUrl: './project-list.component.css'
 })

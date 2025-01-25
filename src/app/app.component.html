@@ -1,4 +1,6 @@
+<div class="projectsContainer">
+    <app-project-list></app-project-list>
+</div>
 
-<app-project-list></app-project-list>
 <p-button (click)="showTaskCreator()" icon="pi pi-plus" label="Crear Tarea"></p-button>
 <app-task-creator [taskCreatorVisible]="taskCreatorVisible" (onClose)="handleTaskCreatorClose($event)"></app-task-creator>   

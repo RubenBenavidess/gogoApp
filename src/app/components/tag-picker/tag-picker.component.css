@@ -1,0 +1,9 @@
+.tags-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+p-chip {
+    margin-right: 5px;
+}

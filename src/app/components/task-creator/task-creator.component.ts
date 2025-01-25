@@ -26,7 +26,7 @@ export class TaskCreatorComponent {
   proyectos: Proyecto[] = [];
   proyectoTarea: Proyecto | null = null; // El proyecto seleccionado
   prioridades: string[] = ["Urgente", "Alta", "Media", "Baja"];
-  prioridadTarea: string = this.prioridades[1]; // Prioridad inicial
+  prioridadTarea: string = this.prioridades[2]; // Prioridad inicial
   nombreTarea: string = "Tarea";
   fechaActual: Date = new Date();
   rangoFechas: Date[] = [];

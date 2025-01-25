@@ -1,11 +1,31 @@
-import { Component } from '@angular/core';
-
+import { Component, EventEmitter, Output } from '@angular/core';
+import { CommonModule } from '@angular//common';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { SelectModule } from 'primeng/select';
+import { Etiqueta } from '../../models/etiqueta';
+import { EtiquetasService } from '../../services/etiquetas-service.service';
 @Component({
   selector: 'app-tag-picker',
-  imports: [],
+  standalone: true,
+  imports: [OverlayPanelModule, CommonModule, SelectModule],
   templateUrl: './tag-picker.component.html',
   styleUrl: './tag-picker.component.css'
 })
 export class TagPickerComponent {
+  etiquetas: Etiqueta[] = [];
 
+  @Output() onPick = new EventEmitter<Etiqueta>();
+
+  constructor(
+      private etiquetasService: EtiquetasService,
+    ) {
+      // Suscripción al BehaviorSubject de etiquetas
+      this.etiquetasService.etiquetas$.subscribe((etiquetas) => {
+        this.etiquetas = etiquetas;
+      });
+    }
+
+    elegirEtiqueta(etiqueta: Etiqueta){
+      this.onPick.emit(etiqueta);
+    }
 }
