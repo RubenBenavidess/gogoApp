@@ -82,7 +82,7 @@ import { TareasService } from '../../services/tareas-service.service';
   }
 
   agruparTareas(){
-    console.log(this.agrupacion.prioridad);
+    //console.log(this.agrupacion.prioridad);
     this.limpiarAgrupadas();
     this.cargarPrioridades();
     for(let prioridad of this.prioridades){
@@ -98,7 +98,7 @@ import { TareasService } from '../../services/tareas-service.service';
     for (let colaborador of tarea.colaboradores) {
         colaboradores += '\n' + colaborador.nombreC;
     }
-    console.log(colaboradores);
+    //console.log(colaboradores);
     return colaboradores;
   }
 

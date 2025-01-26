@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Etiqueta } from '../models/etiqueta';
+import e from 'express';
 
 @Injectable({
   providedIn: 'root',
@@ -17,11 +18,11 @@ export class EtiquetasService {
   /**
    * Obtiene la lista de etiquetas desde la API y actualiza el BehaviorSubject.
    */
-  fetcheEtiquetas(): void {
+  fetchEtiquetas(): void {
+    console.log("Fetch Etiquetas");
     this.http.get<Etiqueta[]>(this.apiUrl).subscribe({
       next: (etiquetas) => {
-        this.etiquetasSujeto.next(etiquetas)
-        console.log(etiquetas);
+        this.etiquetasSujeto.next(etiquetas);
       },
       error: (error) => console.error('Error al obtener etiquetas:', error)
     });

@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular//common';
-import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { PopoverModule } from 'primeng/popover';
 import { SelectModule } from 'primeng/select';
 import { Etiqueta } from '../../models/etiqueta';
 import { EtiquetasService } from '../../services/etiquetas-service.service';
 @Component({
   selector: 'app-tag-picker',
   standalone: true,
-  imports: [OverlayPanelModule, CommonModule, SelectModule],
+  imports: [PopoverModule, CommonModule, SelectModule],
   templateUrl: './tag-picker.component.html',
   styleUrl: './tag-picker.component.css'
 })
@@ -23,6 +23,12 @@ export class TagPickerComponent {
       this.etiquetasService.etiquetas$.subscribe((etiquetas) => {
         this.etiquetas = etiquetas;
       });
+      
+    }
+
+    ngOnInit(){
+      this.etiquetasService.fetchEtiquetas();
+      
     }
 
     elegirEtiqueta(etiqueta: Etiqueta){

@@ -1,11 +1,14 @@
-<div class="tagsContainer">
-    <p-overlayPanel #op>
-        <p-select
-            [options]="etiquetas"
-            appendTo="body"
-            optionLabel="nombreE"
-            [style]="{width: '200px'}" 
-            (onChange)="elegirEtiqueta($event.value)">
-        </p-select>
-    </p-overlayPanel>
-</div>
+<p-popover #op> 
+    <div class="flex flex-col gap-4">
+        <div>
+            <span class="font-medium block mb-2">Etiquetas</span>
+            <ul class="list-none p-0 m-0 flex flex-col">
+                <li *ngFor="let etiqueta of etiquetas" class="flex items-center gap-2 px-2 py-3 hover:bg-emphasis cursor-pointer rounded-border" (click)="elegirEtiqueta(etiqueta)">
+                    <div>
+                        <span class="font-medium">{{ etiqueta.nombreE }}</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</p-popover>

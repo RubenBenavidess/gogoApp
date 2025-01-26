@@ -21,7 +21,6 @@ export class ProyectosService {
     this.http.get<Proyecto[]>(this.apiUrl).subscribe({
       next: (proyectos) => {
         this.proyectosSujeto.next(proyectos)
-        console.log(proyectos);
       },
       error: (error) => console.error('Error al obtener proyectos:', error)
     });

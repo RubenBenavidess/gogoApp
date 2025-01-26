@@ -4,3 +4,6 @@
 
 <p-button (click)="showTaskCreator()" icon="pi pi-plus" label="Crear Tarea"></p-button>
 <app-task-creator [taskCreatorVisible]="taskCreatorVisible" (onClose)="handleTaskCreatorClose($event)"></app-task-creator>   
+<div style="background-color: red; height: 20vh;">
+    <app-tag-picker></app-tag-picker>
+</div>
