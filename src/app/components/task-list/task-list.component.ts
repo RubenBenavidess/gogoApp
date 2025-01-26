@@ -115,10 +115,6 @@ export class TaskListComponent {
   }
 
   agruparTareas(){
-<<<<<<< HEAD
-    //console.log(this.agrupacion.prioridad);
-=======
->>>>>>> 3938b615f7a73f7a2a55ffef730f9474eb3dee6e
     this.limpiarAgrupadas();
     this.cargarPrioridades();
     for(let prioridad of this.prioridades){
@@ -132,10 +128,6 @@ export class TaskListComponent {
     for (let colaborador of tarea.colaboradores) {
         colaboradores += '\n' + colaborador.nombreC;
     }
-<<<<<<< HEAD
-    //console.log(colaboradores);
-=======
->>>>>>> 3938b615f7a73f7a2a55ffef730f9474eb3dee6e
     return colaboradores;
   }
 
