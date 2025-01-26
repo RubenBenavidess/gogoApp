@@ -20,8 +20,14 @@ export class ProjectListComponent {
       this.proyectos = proyectos;
     });
   }
-  
+
   ngOnInit(){
     this.proyectosService.fetchProyectos();
+    for(let proyecto of this.proyectos){
+      for(let tarea of proyecto.tareas){
+        tarea.fechaInicio = new Date(tarea.fechaInicio);
+        tarea.fechaFin = new Date(tarea.fechaFin);
+      }
+    }
   }
 }
