@@ -42,9 +42,10 @@
                 <th class="p-2 border border-gray-300">Colaboradores</th>
                 <th class="p-2 border border-gray-300">Fecha de inicio</th>
                 <th class="p-2 border border-gray-300">Fecha de fin</th>
-                <th class="p-2 border border-gray-300">Estado</th>
                 <th class="p-2 border border-gray-300">Etiquetas</th>
                 <th class="p-2 border border-gray-300">Prioridad</th>
+                <th class="p-2 border border-gray-300">Estado</th>
+                <th class="p-2 border border-gray-300">Progreso</th>
             </tr>
         </thead>
         @if(agrupacion.prioridad) {
@@ -54,23 +55,24 @@
                         <tr class="hover:bg-gray-100">
                             <td class="p-2 border border-gray-300">{{tareaDe.nombreT}}</td>
                             <td class="p-2 border border-gray-300">{{getColaboradores(tareaDe)}}</td>
-                            <td class="p-2 border border-gray-300">{{tareaDe.fechaInicio}}</td>
-                            <td class="p-2 border border-gray-300">{{tareaDe.fechaFin}}</td>
+                            <td class="p-2 border border-gray-300">{{tareaDe.fechaInicio.getFullYear()}}/{{tareaDe.fechaInicio.getMonth() + 1}}/{{tareaDe.fechaInicio.getDate()}}</td>
+                            <td class="p-2 border border-gray-300">{{tareaDe.fechaFin.getFullYear()}}/{{tareaDe.fechaFin.getMonth() + 1}}/{{tareaDe.fechaFin.getDate()}}</td>
+                            <td class="p-2 border border-gray-300">{{getEtiquetas(tareaDe)}}</td>
+                            <td class="p-2 border border-gray-300">{{tareaDe.prioridad}}</td>
                             <td class="p-2 border border-gray-300">
-                                Pendiente
-                                @if( !tareaDe.completado) {
+                                @if(actual < tareaDe.fechaInicio && !tareaDe.completado) {
                                     Pendiente
-                                } @else if (!tareaDe.completado) {
+                                } @else if (tareaDe.fechaFin > actual && tareaDe.fechaInicio < actual && !tareaDe.completado) {
                                     En Curso
-                                } @else if(tareaDe.completado) {
+                                } @else if(tareaDe.completado || actual > tareaDe.fechaFin) {
                                     Completado
                                 }
                             </td>
-                            <td class="p-2 border border-gray-300">{{getEtiquetas(tareaDe)}}</td>
-                            <td class="p-2 border border-gray-300">{{tareaDe.prioridad}}</td>
+                            <td class="p-2 border border-gray-300"><p-progressbar [value]="calcularProgreso(tareaDe)"/></td>
                         </tr>
                     }
                 </tbody>
+                <hr>
             }
         } @else {
             <tbody>
@@ -79,19 +81,20 @@
                         <tr class="hover:bg-gray-100">
                             <td class="p-2 border border-gray-300">{{tarea.nombreT}}</td>
                             <td class="p-2 border border-gray-300">{{getColaboradores(tarea)}}</td>
-                            <td class="p-2 border border-gray-300">{{tarea.fechaInicio}}</td>
-                            <td class="p-2 border border-gray-300">{{tarea.fechaFin}}</td>
+                            <td class="p-2 border border-gray-300">{{tarea.fechaInicio.getFullYear()}}/{{tarea.fechaInicio.getMonth() + 1}}/{{tarea.fechaInicio.getDate()}}</td>
+                            <td class="p-2 border border-gray-300">{{tarea.fechaFin.getFullYear()}}/{{tarea.fechaFin.getMonth() + 1}}/{{tarea.fechaFin.getDate()}}</td>
+                            <td class="p-2 border border-gray-300">{{getEtiquetas(tarea)}}</td>
+                            <td class="p-2 border border-gray-300">{{tarea.prioridad}}</td>
                             <td class="p-2 border border-gray-300">
-                                @if(  !tarea.completado) {
+                                @if(actual < tarea.fechaInicio && !tarea.completado) {
                                     Pendiente
-                                } @else if (!tarea.completado) {
+                                } @else if (tarea.fechaFin > actual && tarea.fechaInicio < actual && !tarea.completado) {
                                     En Curso
-                                } @else if(tarea.completado) {
+                                } @else if(tarea.completado || actual > tarea.fechaFin) {
                                     Completado
                                 }
                             </td>
-                            <td class="p-2 border border-gray-300">{{getEtiquetas(tarea)}}</td>
-                            <td class="p-2 border border-gray-300">{{tarea.prioridad}}</td>
+                            <td class="p-2 border border-gray-300"><p-progressbar [value]="calcularProgreso(tarea)" /></td>
                         </tr>
                     }
                 } @else {
@@ -99,19 +102,20 @@
                         <tr class="hover:bg-gray-100">
                             <td class="p-2 border border-gray-300">{{tarea.nombreT}}</td>
                             <td class="p-2 border border-gray-300">{{getColaboradores(tarea)}}</td>
-                            <td class="p-2 border border-gray-300">{{tarea.fechaInicio}}</td>
-                            <td class="p-2 border border-gray-300">{{tarea.fechaFin}}</td>
+                            <td class="p-2 border border-gray-300">{{tarea.fechaInicio.getFullYear()}}/{{tarea.fechaInicio.getMonth() + 1}}/{{tarea.fechaInicio.getDate()}}</td>
+                            <td class="p-2 border border-gray-300">{{tarea.fechaFin.getFullYear()}}/{{tarea.fechaFin.getMonth() + 1}}/{{tarea.fechaFin.getDate()}}</td>
+                            <td class="p-2 border border-gray-300">{{getEtiquetas(tarea)}}</td>
+                            <td class="p-2 border border-gray-300">{{tarea.prioridad}}</td>
                             <td class="p-2 border border-gray-300">
-                                @if( !tarea.completado) {
+                                @if(actual < tarea.fechaInicio && !tarea.completado) {
                                     Pendiente
-                                } @else if (!tarea.completado) {
+                                } @else if (tarea.fechaFin > actual && tarea.fechaInicio < actual && !tarea.completado) {
                                     En Curso
-                                } @else if(tarea.completado) {
+                                } @else if(tarea.completado || actual > tarea.fechaFin) {
                                     Completado
                                 }
                             </td>
-                            <td class="p-2 border border-gray-300">{{getEtiquetas(tarea)}}</td>
-                            <td class="p-2 border border-gray-300">{{tarea.prioridad}}</td>
+                            <td class="p-2 border border-gray-300"><p-progressbar [value]="calcularProgreso(tarea)" /></td>
                         </tr>
                     }
                 }

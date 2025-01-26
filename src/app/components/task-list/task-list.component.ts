@@ -2,15 +2,17 @@ import { Component, Input } from '@angular/core';
 import { Tarea } from '../../models/tarea';
 import { FormsModule } from '@angular/forms';
 import { TagPickerComponent } from '../tag-picker/tag-picker.component';
-import { TareasService } from '../../services/tareas-service.service';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 @Component({
   selector: 'app-task-list',
   standalone: true,
-  imports: [FormsModule, TagPickerComponent],
+  imports: [FormsModule, ProgressBarModule],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.css'
-})export class TaskListComponent {
+})
+
+export class TaskListComponent {
   @Input() idP: number = 0;
   @Input() tareas: Tarea[] = [];
   tareasFiltradas: Tarea[] = [];
@@ -29,10 +31,33 @@ import { TareasService } from '../../services/tareas-service.service';
   actual = new Date();
   prioridades: string[] = [];
 
-  constructor(
-      private tareasService: TareasService,
-    ) {
+  calcularProgreso(tarea: Tarea){
+    let fechaInicio = new Date(tarea.fechaInicio);
+    let fechaFin = new Date(tarea.fechaFin);
+    let actual = new Date();
+    let porcentaje = 0;
+
+    if(tarea.completado){
+      porcentaje = 100;
+    } else if(actual < fechaInicio){
+      porcentaje = 0;
+    } else if(actual > fechaFin){
+      porcentaje = 100;
+    } else {
+      let tiempoTotal = fechaFin.getTime() - fechaInicio.getTime();
+      let tiempoTranscurrido = actual.getTime() - fechaInicio.getTime();
+      porcentaje = Math.round(tiempoTranscurrido * 100 / tiempoTotal);
     }
+
+    return porcentaje;
+  }
+
+  validarFechas(tareas: Tarea[]){
+    for(let tarea of tareas){
+      tarea.fechaInicio = new Date(tarea.fechaInicio);
+      tarea.fechaFin = new Date(tarea.fechaFin);
+    }
+  }
 
   cargarPrioridades(){
     for(let tarea of this.tareas){
@@ -40,6 +65,10 @@ import { TareasService } from '../../services/tareas-service.service';
         this.prioridades.push(tarea.prioridad);
       }
     }
+  }
+
+  ngOnInit(){ 
+    this.validarFechas(this.tareas);
   }
 
   limpiarFiltradas(tareasFiltro: Tarea[]){
@@ -51,28 +80,32 @@ import { TareasService } from '../../services/tareas-service.service';
   }
 
   filtrarTareas(tareasFiltro: Tarea[], tareas: Tarea[]) {
-
     this.limpiarFiltradas(tareasFiltro);
   
+    this.validarFechas(tareas);
+    this.validarFechas(tareasFiltro);
+
     if (!this.estado.pendiente && !this.estado.enCurso && !this.estado.completado) {
       tareasFiltro.splice(0, tareasFiltro.length, ...tareas);
     } else {
       let nuevasTareas: Tarea[] = [];
   
       if (this.estado.pendiente) {
-        nuevasTareas = nuevasTareas.concat(tareas.filter((tarea) => !tarea.completado));
+        nuevasTareas = nuevasTareas.concat(tareas.filter((tarea) => this.actual < tarea.fechaInicio && !tarea.completado));
       }
     
       if (this.estado.enCurso) {
-        nuevasTareas = nuevasTareas.concat(tareas.filter(tarea => !tarea.completado));
+        nuevasTareas = nuevasTareas.concat(tareas.filter(tarea => tarea.fechaFin > this.actual && tarea.fechaInicio < this.actual && !tarea.completado));
       }
     
       if (this.estado.completado) {
-        nuevasTareas = nuevasTareas.concat(tareas.filter(tarea => tarea.completado));
+        nuevasTareas = nuevasTareas.concat(tareas.filter(tarea => tarea.completado || this.actual > tarea.fechaFin));
       }
-  
+      
       tareasFiltro.splice(0, tareasFiltro.length, ...nuevasTareas); 
     }
+
+    this.validarFechas(tareasFiltro);
   }
 
   filtrarAgrupadas(){
@@ -82,15 +115,12 @@ import { TareasService } from '../../services/tareas-service.service';
   }
 
   agruparTareas(){
-    console.log(this.agrupacion.prioridad);
     this.limpiarAgrupadas();
     this.cargarPrioridades();
     for(let prioridad of this.prioridades){
       this.tareasAgrupadas.push(this.tareas.filter(tarea => tarea.prioridad == prioridad));
-    }
-    if(this.estado.pendiente || this.estado.enCurso || this.estado.completado){
       this.filtrarAgrupadas();
-    }   
+    }
   }
 
   getColaboradores(tarea: Tarea){
@@ -98,7 +128,6 @@ import { TareasService } from '../../services/tareas-service.service';
     for (let colaborador of tarea.colaboradores) {
         colaboradores += '\n' + colaborador.nombreC;
     }
-    console.log(colaboradores);
     return colaboradores;
   }
 
@@ -109,5 +138,6 @@ import { TareasService } from '../../services/tareas-service.service';
     }
     return etiquetas;
   }
+
 
 }
