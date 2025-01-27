@@ -7,7 +7,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
 @Component({
   selector: 'app-task-list',
   standalone: true,
-  imports: [FormsModule, ProgressBarModule],
+  imports: [FormsModule, ProgressBarModule, TagPickerComponent],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.css'
 })
@@ -52,23 +52,12 @@ export class TaskListComponent {
     return porcentaje;
   }
 
-  validarFechas(tareas: Tarea[]){
-    for(let tarea of tareas){
-      tarea.fechaInicio = new Date(tarea.fechaInicio);
-      tarea.fechaFin = new Date(tarea.fechaFin);
-    }
-  }
-
   cargarPrioridades(){
     for(let tarea of this.tareas){
       if(!this.prioridades.includes(tarea.prioridad)){
         this.prioridades.push(tarea.prioridad);
       }
     }
-  }
-
-  ngOnInit(){ 
-    this.validarFechas(this.tareas);
   }
 
   limpiarFiltradas(tareasFiltro: Tarea[]){
@@ -81,9 +70,6 @@ export class TaskListComponent {
 
   filtrarTareas(tareasFiltro: Tarea[], tareas: Tarea[]) {
     this.limpiarFiltradas(tareasFiltro);
-  
-    this.validarFechas(tareas);
-    this.validarFechas(tareasFiltro);
 
     if (!this.estado.pendiente && !this.estado.enCurso && !this.estado.completado) {
       tareasFiltro.splice(0, tareasFiltro.length, ...tareas);
@@ -104,8 +90,6 @@ export class TaskListComponent {
       
       tareasFiltro.splice(0, tareasFiltro.length, ...nuevasTareas); 
     }
-
-    this.validarFechas(tareasFiltro);
   }
 
   filtrarAgrupadas(){
@@ -139,5 +123,8 @@ export class TaskListComponent {
     return etiquetas;
   }
 
-
+  formatDate(fecha: Date): string {
+    const d = new Date(fecha);
+    return `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}`;
+  }
 }
