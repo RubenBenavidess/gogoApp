@@ -29,9 +29,10 @@ export class TareasService {
 
   // Actualizar una tarea dentro de un proyecto
   updateTarea(idP: number, idT: number, tarea: Tarea): void {
+    console.log(`${this.apiUrl}/${idP}/tareas/${idT}`);
     this.http.put<Tarea>(
-      `${this.apiUrl}/${idP}/tareas/${idT}`,
-      tarea).subscribe({
+      `${this.apiUrl}/${idP}/tareas/${idT}`, tarea
+    ).subscribe({
         next: (tarea)=>{},
         error: (error) => console.error('Error al actualizar tarea:', error)
       });

@@ -2,5 +2,11 @@
     <app-project-list></app-project-list>
 </div>
 
-<p-button (click)="showTaskCreator()" icon="pi pi-plus" label="Crear Tarea"></p-button>
+<p-button 
+    (click)="showTaskCreator()" 
+    icon="pi pi-plus" 
+    size="large"
+    class="fixed bottom-4 right-4 z-50 text-white px-4 py-2"
+    label="Crear Tarea"
+    ></p-button>
 <app-task-creator [taskCreatorVisible]="taskCreatorVisible" (onClose)="handleTaskCreatorClose($event)"></app-task-creator> 

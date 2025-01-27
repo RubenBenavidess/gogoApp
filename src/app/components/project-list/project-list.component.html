@@ -1,14 +1,16 @@
 <div>
+    
+    <p-accordion [multiple]="false" [activeIndex]="0" class="p-accordion w-full">
     @for (proyecto of proyectos; track proyecto.idP) {
         <div class="p-4 bg-white shadow rounded-md">
-            <p-accordion [activeIndex]="0" class="p-accordion w-full">
-                <p-accordion-panel [value]="1">
+                <p-accordion-panel [value]="proyecto.idP">
                     <p-accordion-header class="text-lg font-semibold text-gray-800">{{ proyecto.nombreP }}</p-accordion-header>
                     <p-accordion-content class="p-4">
                         <app-task-list [idP]="proyecto.idP" [tareas]="proyecto.tareas"></app-task-list>
                     </p-accordion-content>
                 </p-accordion-panel>
-            </p-accordion>
+
         </div>
     }
+    </p-accordion>
 </div>

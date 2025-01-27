@@ -2,15 +2,18 @@ import { Component, Input } from '@angular/core';
 import { Tarea } from '../../models/tarea';
 import { FormsModule } from '@angular/forms';
 import { TagPickerComponent } from '../tag-picker/tag-picker.component';
+import { ColaboradorPickerComponent } from '../colaborador-picker/colaborador-picker.component';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { TareasService } from '../../services/tareas-service.service';
 import { Etiqueta } from '../../models/etiqueta';
+import { Colaborador } from '../../models/colaborador';
 import { CheckboxModule } from 'primeng/checkbox';
+import { Chip, ChipModule } from 'primeng/chip';
 
 @Component({
   selector: 'app-task-list',
   standalone: true,
-  imports: [FormsModule, ProgressBarModule, TagPickerComponent, CheckboxModule],
+  imports: [FormsModule, ProgressBarModule, TagPickerComponent, CheckboxModule, ChipModule, ColaboradorPickerComponent],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.css'
 })
@@ -36,11 +39,42 @@ export class TaskListComponent {
   prioridades: string[] = [];
 
   constructor(private tareasService: TareasService) {
-
   }
 
   anadirEtiqueta(tarea: Tarea, etiqueta: Etiqueta){
     tarea.etiquetas.push(etiqueta);
+    this.tareasService.updateTarea(this.idP, tarea.idT, tarea);
+  }
+
+  eliminarEtiqueta(tarea: Tarea, idE: number){
+    for(let i = 0; i < tarea.etiquetas.length; i++){
+      if(tarea.etiquetas[i].idE == idE){
+        tarea.etiquetas.splice(i, 1);
+        this.tareasService.updateTarea(this.idP, tarea.idT, tarea);
+        break;
+      }
+    }
+  }
+
+  anadirColaborador(tarea: Tarea, colaborador: Colaborador){
+    tarea.colaboradores.push(colaborador);
+    this.tareasService.updateTarea(this.idP, tarea.idT, tarea);
+  }
+
+  eliminarColaborador(tarea: Tarea, idC: number){
+    let updated = false;
+    for(let i = 0; i < tarea.colaboradores.length; i++){
+      if(tarea.colaboradores[i].idC == idC){
+        tarea.colaboradores.splice(i, 1);
+        updated = true;
+        break;
+      }
+    }
+    if(updated)
+      this.tareasService.updateTarea(this.idP, tarea.idT, tarea);
+  }
+
+  actualizarCompletado(tarea: Tarea){
     this.tareasService.updateTarea(this.idP, tarea.idT, tarea);
   }
 
@@ -99,7 +133,7 @@ export class TaskListComponent {
       }
     
       if (this.estado.completado) {
-        nuevasTareas = nuevasTareas.concat(tareas.filter(tarea => tarea.completado && this.actual > new Date(tarea.fechaFin)));
+        nuevasTareas = nuevasTareas.concat(tareas.filter(tarea => tarea.completado || (this.actual > new Date(tarea.fechaFin))));
       } 
 
       if(this.estado.atrasado){
@@ -128,7 +162,7 @@ export class TaskListComponent {
   getColaboradores(tarea: Tarea){
     let colaboradores = '';
     for (let colaborador of tarea.colaboradores) {
-        colaboradores += '\n' + colaborador.nombreC;
+        colaboradores += '<br>' + colaborador.nombreC;
     }
     return colaboradores;
   }
@@ -136,7 +170,7 @@ export class TaskListComponent {
   getEtiquetas(tarea: Tarea){
     let etiquetas = '';
     for (let etiqueta of tarea.etiquetas) {
-        etiquetas += '\n' + etiqueta.nombreE;
+        etiquetas += '<br>' + etiqueta.nombreE;
     }
     return etiquetas;
   }
@@ -144,7 +178,10 @@ export class TaskListComponent {
   calcularEstado(fechaInicio: Date, fechaFin: Date, completado: boolean): string {
     const dInicio = new Date(fechaInicio);
     const dFin = new Date(fechaFin);
-    if(this.actual < dInicio && !completado) {
+    if(completado){
+      return "Completado";
+    }
+    else if(this.actual < dInicio && !completado) {
       return "Pendiente";
     }
     else if (dFin > this.actual && dInicio < this.actual && !completado) {

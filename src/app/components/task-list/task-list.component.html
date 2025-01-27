@@ -59,16 +59,48 @@
                     @for(tareaDe of tareaAgrupada; track tareaDe.idT) {
                         <tr class="hover:bg-gray-100">
                             <td class="p-2 border border-gray-300">{{tareaDe.nombreT}}</td>
-                            <td class="p-2 border border-gray-300">{{getColaboradores(tareaDe)}}  <hr style="margin-bottom: 7px;"> </td>
+                            <td class="p-2 border border-gray-300"> 
+                                <div class="flex items-center gap-2">
+                                    <app-colaborador-picker 
+                                    [idP] = "idP"
+                                    (onPick)="anadirColaborador(tareaDe, $event)"
+                                    ></app-colaborador-picker>
+                                <div class="flex items-center gap-2">
+                                @for(colaborador of tareaDe.colaboradores; track colaborador.idC){
+                                    <p-chip label="{{colaborador.nombreC}}" [removable]="true" (onRemove)="eliminarColaborador(tareaDe, colaborador.idC)"/>
+                                    <br>
+                                }
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <app-colaborador-picker 
+                                    [idP] = "idP"
+                                    (onPick)="anadirColaborador(tareaDe, $event)"
+                                    ></app-colaborador-picker>
+                                </div>
+                                </div>
+                            </td>
                             <td class="p-2 border border-gray-300">{{formatDate(tareaDe.fechaInicio)}}</td>
                             <td class="p-2 border border-gray-300">{{formatDate(tareaDe.fechaFin)}}</td>
-                            <td class="p-2 border border-gray-300">{{getEtiquetas(tareaDe)}}  <hr style="margin-bottom: 7px;"> <app-tag-picker (onPick)="anadirEtiqueta(tareaDe, $event)"></app-tag-picker></td>
+                            <td class="p-2 border border-gray-300">
+                                <div class="flex items-center gap-2">
+                                    
+                                    <div class="flex items-center gap-2">
+                                    @for(etiqueta of tareaDe.etiquetas; track etiqueta.idE){
+                                        <p-chip label="{{etiqueta.nombreE}}" [removable]="true" (onRemove)="eliminarEtiqueta(tareaDe, etiqueta.idE)"/>
+                                        <br>
+                                    }
+                                    </div>
+                                    <div class="flex items-center gap-2"> 
+                                        <app-tag-picker (onPick)="anadirEtiqueta(tareaDe, $event)"></app-tag-picker>
+                                    </div>
+                                </div>
+                            </td>
                             <td class="p-2 border border-gray-300">{{tareaDe.prioridad}}</td>
                             <td class="p-2 border border-gray-300">
                                 {{calcularEstado(tareaDe.fechaInicio, tareaDe.fechaFin, tareaDe.completado)}}
                             </td>
                             <td class="p-2 border border-gray-300"><p-progressbar [value]="calcularProgreso(tareaDe)"/></td>
-                            <td class="p-2 border border-gray-300"><p-checkbox [binary]="true" /></td>
+                            <td class="p-2 border border-gray-300"><p-checkbox [(ngModel)]="tareaDe.completado"  [binary]="true" (onChange)="actualizarCompletado(tareaDe)" /></td>
                         </tr>
                     }
                 </tbody>
@@ -80,32 +112,88 @@
                     @for (tarea of tareasFiltradas; track tarea.idT) {
                         <tr class="hover:bg-gray-100">
                             <td class="p-2 border border-gray-300">{{tarea.nombreT}}</td>
-                            <td class="p-2 border border-gray-300">{{getColaboradores(tarea)}}  <hr style="margin-bottom: 7px;"> </td>
+                            <td class="p-2 border border-gray-300">
+                                <div class="flex items-center gap-2">
+                                <div class="flex items-center gap-2">
+                                @for(colaborador of tarea.colaboradores; track colaborador.idC){
+                                    <p-chip label="{{colaborador.nombreC}}" [removable]="true" (onRemove)="eliminarColaborador(tarea, colaborador.idC)"/>
+                                    <br>
+                                }
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <app-colaborador-picker 
+                                    [idP] = "idP"
+                                    (onPick)="anadirColaborador(tarea, $event)"
+                                    ></app-colaborador-picker>
+                                </div>
+                                </div>
+                            </td>
                             <td class="p-2 border border-gray-300">{{formatDate(tarea.fechaInicio)}}</td>
                             <td class="p-2 border border-gray-300">{{formatDate(tarea.fechaFin)}}</td>
-                            <td class="p-2 border border-gray-300">{{getEtiquetas(tarea)}}  <hr style="margin-bottom: 7px;"> <app-tag-picker (onPick)="anadirEtiqueta(tarea, $event)"></app-tag-picker></td>
+                            <td class="p-2 border border-gray-300">
+                                <div class="flex items-center gap-2">
+                                    
+                                    <div class="flex items-center gap-2">
+                                    @for(etiqueta of tarea.etiquetas; track etiqueta.idE){
+                                        <p-chip label="{{etiqueta.nombreE}}" [removable]="true" (onRemove)="eliminarEtiqueta(tarea, etiqueta.idE)"/>
+                                        <br>
+                                    }
+                                    </div>
+                                    <div class="flex items-center gap-2"> 
+                                        <app-tag-picker (onPick)="anadirEtiqueta(tarea, $event)"></app-tag-picker>
+                                    </div>
+                                </div>
+                            </td>
                             <td class="p-2 border border-gray-300">{{tarea.prioridad}}</td>
                             <td class="p-2 border border-gray-300">
                                 {{calcularEstado(tarea.fechaInicio, tarea.fechaFin, tarea.completado)}}
                             </td>
                             <td class="p-2 border border-gray-300"><p-progressbar [value]="calcularProgreso(tarea)" /></td>
-                            <td class="p-2 border border-gray-300"><p-checkbox [binary]="true" /></td>
+                            <td class="p-2 border border-gray-300"><p-checkbox [(ngModel)]="tarea.completado" [binary]="true" (onChange)="actualizarCompletado(tarea)" /></td>
                         </tr>
                     }
                 } @else {
                     @for (tarea of tareas; track tarea.idT) {
                         <tr class="hover:bg-gray-100">
                             <td class="p-2 border border-gray-300">{{tarea.nombreT}}</td>
-                            <td class="p-2 border border-gray-300">{{getColaboradores(tarea)}} <hr style="margin-bottom: 7px;"> </td>
+                            <td class="p-2 border border-gray-300">
+                            <div class="flex items-center gap-2">
+                                <div class="flex items-center gap-2">
+                                @for(colaborador of tarea.colaboradores; track colaborador.idC){
+                                    <p-chip label="{{colaborador.nombreC}}" [removable]="true" (onRemove)="eliminarColaborador(tarea, colaborador.idC)"/>
+                                    <br>
+                                }
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <app-colaborador-picker 
+                                    [idP] = "idP"
+                                    (onPick)="anadirColaborador(tarea, $event)"
+                                    ></app-colaborador-picker>
+                                </div>
+                                </div>
+                            </td>
                             <td class="p-2 border border-gray-300">{{formatDate(tarea.fechaInicio)}}</td>
                             <td class="p-2 border border-gray-300">{{formatDate(tarea.fechaFin)}}</td>
-                            <td class="p-2 border border-gray-300">{{getEtiquetas(tarea)}} <hr style="margin-bottom: 7px;"> <app-tag-picker (onPick)="anadirEtiqueta(tarea, $event)"></app-tag-picker></td>
+                            <td class="p-2 border border-gray-300"> 
+                                <div class="flex items-center gap-2">
+                                    
+                                    <div class="flex items-center gap-2">
+                                    @for(etiqueta of tarea.etiquetas; track etiqueta.idE){
+                                        <p-chip label="{{etiqueta.nombreE}}" [removable]="true" (onRemove)="eliminarEtiqueta(tarea, etiqueta.idE)"/>
+                                        <br>
+                                    }
+                                    </div>
+                                    <div class="flex items-center gap-2"> 
+                                        <app-tag-picker (onPick)="anadirEtiqueta(tarea, $event)"></app-tag-picker>
+                                    </div>
+                                </div>
+                            </td>
                             <td class="p-2 border border-gray-300">{{tarea.prioridad}}</td>
                             <td class="p-2 border border-gray-300">
                                 {{calcularEstado(tarea.fechaInicio, tarea.fechaFin, tarea.completado)}}
                             </td>
                             <td class="p-2 border border-gray-300"><p-progressbar [value]="calcularProgreso(tarea)" /></td>
-                            <td class="p-2 border border-gray-300"><p-checkbox [binary]="true" /></td>
+                            <td class="p-2 border border-gray-300"><p-checkbox [binary]="true" [(ngModel)]="tarea.completado" (onChange)="actualizarCompletado(tarea)" /></td>
                         </tr>
                     }
                 }
