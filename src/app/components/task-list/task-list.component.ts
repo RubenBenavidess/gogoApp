@@ -3,11 +3,14 @@ import { Tarea } from '../../models/tarea';
 import { FormsModule } from '@angular/forms';
 import { TagPickerComponent } from '../tag-picker/tag-picker.component';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { TareasService } from '../../services/tareas-service.service';
+import { Etiqueta } from '../../models/etiqueta';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @Component({
   selector: 'app-task-list',
   standalone: true,
-  imports: [FormsModule, ProgressBarModule, TagPickerComponent],
+  imports: [FormsModule, ProgressBarModule, TagPickerComponent, CheckboxModule],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.css'
 })
@@ -20,7 +23,8 @@ export class TaskListComponent {
   estado = {
     pendiente: false,
     enCurso: false,
-    completado: false
+    completado: false,
+    atrasado: false
   };
   agrupacion = {
     prioridad: false
@@ -31,19 +35,29 @@ export class TaskListComponent {
   actual = new Date();
   prioridades: string[] = [];
 
+  constructor(private tareasService: TareasService) {
+
+  }
+
+  anadirEtiqueta(tarea: Tarea, etiqueta: Etiqueta){
+    tarea.etiquetas.push(etiqueta);
+    this.tareasService.updateTarea(this.idP, tarea.idT, tarea);
+  }
+
   calcularProgreso(tarea: Tarea){
     let fechaInicio = new Date(tarea.fechaInicio);
     let fechaFin = new Date(tarea.fechaFin);
     let actual = new Date();
     let porcentaje = 0;
 
-    if(tarea.completado){
+    if(tarea.completado || actual > fechaFin && tarea.completado){
       porcentaje = 100;
-    } else if(actual < fechaInicio){
+    } else if(actual < fechaInicio && !tarea.completado){
       porcentaje = 0;
-    } else if(actual > fechaFin){
-      porcentaje = 100;
-    } else {
+    } else if(actual > fechaFin && actual > fechaInicio && !tarea.completado){
+      porcentaje = 0;
+
+    }else {
       let tiempoTotal = fechaFin.getTime() - fechaInicio.getTime();
       let tiempoTranscurrido = actual.getTime() - fechaInicio.getTime();
       porcentaje = Math.round(tiempoTranscurrido * 100 / tiempoTotal);
@@ -71,7 +85,7 @@ export class TaskListComponent {
   filtrarTareas(tareasFiltro: Tarea[], tareas: Tarea[]) {
     this.limpiarFiltradas(tareasFiltro);
 
-    if (!this.estado.pendiente && !this.estado.enCurso && !this.estado.completado) {
+    if (!this.estado.pendiente && !this.estado.enCurso && !this.estado.completado && !this.estado.atrasado) {
       tareasFiltro.splice(0, tareasFiltro.length, ...tareas);
     } else {
       let nuevasTareas: Tarea[] = [];
@@ -85,9 +99,13 @@ export class TaskListComponent {
       }
     
       if (this.estado.completado) {
-        nuevasTareas = nuevasTareas.concat(tareas.filter(tarea => tarea.completado || this.actual > new Date(tarea.fechaFin)));
+        nuevasTareas = nuevasTareas.concat(tareas.filter(tarea => tarea.completado && this.actual > new Date(tarea.fechaFin)));
+      } 
+
+      if(this.estado.atrasado){
+        nuevasTareas = nuevasTareas.concat(tareas.filter(tarea => this.actual > new Date(tarea.fechaFin) && this.actual > new Date(tarea.fechaInicio) && !tarea.completado));
       }
-      
+
       tareasFiltro.splice(0, tareasFiltro.length, ...nuevasTareas); 
     }
   }
@@ -135,9 +153,10 @@ export class TaskListComponent {
     else if(completado && this.actual > dFin) {
       return "Completado";
     }
-    else{
+    else if(dFin < this.actual && dInicio < this.actual && !completado){
       return "Atrasado";
     }
+    return 'Sin estado';
   }
 
   formatDate(fecha: Date): string {

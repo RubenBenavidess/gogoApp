@@ -25,6 +25,10 @@
                 <input type="checkbox" [(ngModel)]="estado.completado" (change)="filtrarTareas(tareasFiltradas, tareas); agrupacion.prioridad ? agruparTareas() : null" class="p-checkbox">
                 <label class="text-sm text-gray-700">Completado</label>
             </div>
+            <div class="flex items-center gap-2">
+                <input type="checkbox" [(ngModel)]="estado.atrasado" (change)="filtrarTareas(tareasFiltradas, tareas); agrupacion.prioridad ? agruparTareas() : null" class="p-checkbox">
+                <label class="text-sm text-gray-700">Atrasado</label>
+            </div>
         </div>
     }
     @if(agrupado) {
@@ -46,6 +50,7 @@
                 <th class="p-2 border border-gray-300">Prioridad</th>
                 <th class="p-2 border border-gray-300">Estado</th>
                 <th class="p-2 border border-gray-300">Progreso</th>
+                <th class="p-2 border border-gray-300">Completar</th>
             </tr>
         </thead>
         @if(agrupacion.prioridad) {
@@ -54,15 +59,16 @@
                     @for(tareaDe of tareaAgrupada; track tareaDe.idT) {
                         <tr class="hover:bg-gray-100">
                             <td class="p-2 border border-gray-300">{{tareaDe.nombreT}}</td>
-                            <td class="p-2 border border-gray-300">{{getColaboradores(tareaDe)}}</td>
+                            <td class="p-2 border border-gray-300">{{getColaboradores(tareaDe)}}  <hr style="margin-bottom: 7px;"> </td>
                             <td class="p-2 border border-gray-300">{{formatDate(tareaDe.fechaInicio)}}</td>
                             <td class="p-2 border border-gray-300">{{formatDate(tareaDe.fechaFin)}}</td>
-                            <td class="p-2 border border-gray-300">{{getEtiquetas(tareaDe)}}<app-tag-picker></app-tag-picker></td>
+                            <td class="p-2 border border-gray-300">{{getEtiquetas(tareaDe)}}  <hr style="margin-bottom: 7px;"> <app-tag-picker (onPick)="anadirEtiqueta(tareaDe, $event)"></app-tag-picker></td>
                             <td class="p-2 border border-gray-300">{{tareaDe.prioridad}}</td>
                             <td class="p-2 border border-gray-300">
                                 {{calcularEstado(tareaDe.fechaInicio, tareaDe.fechaFin, tareaDe.completado)}}
                             </td>
                             <td class="p-2 border border-gray-300"><p-progressbar [value]="calcularProgreso(tareaDe)"/></td>
+                            <td class="p-2 border border-gray-300"><p-checkbox [binary]="true" /></td>
                         </tr>
                     }
                 </tbody>
@@ -70,34 +76,36 @@
             }
         } @else {
             <tbody>
-                @if(estado.pendiente || estado.completado || estado.enCurso) {
+                @if(estado.pendiente || estado.completado || estado.enCurso || estado.atrasado) {
                     @for (tarea of tareasFiltradas; track tarea.idT) {
                         <tr class="hover:bg-gray-100">
                             <td class="p-2 border border-gray-300">{{tarea.nombreT}}</td>
-                            <td class="p-2 border border-gray-300">{{getColaboradores(tarea)}}</td>
+                            <td class="p-2 border border-gray-300">{{getColaboradores(tarea)}}  <hr style="margin-bottom: 7px;"> </td>
                             <td class="p-2 border border-gray-300">{{formatDate(tarea.fechaInicio)}}</td>
                             <td class="p-2 border border-gray-300">{{formatDate(tarea.fechaFin)}}</td>
-                            <td class="p-2 border border-gray-300">{{getEtiquetas(tarea)}}<app-tag-picker></app-tag-picker></td>
+                            <td class="p-2 border border-gray-300">{{getEtiquetas(tarea)}}  <hr style="margin-bottom: 7px;"> <app-tag-picker (onPick)="anadirEtiqueta(tarea, $event)"></app-tag-picker></td>
                             <td class="p-2 border border-gray-300">{{tarea.prioridad}}</td>
                             <td class="p-2 border border-gray-300">
                                 {{calcularEstado(tarea.fechaInicio, tarea.fechaFin, tarea.completado)}}
                             </td>
                             <td class="p-2 border border-gray-300"><p-progressbar [value]="calcularProgreso(tarea)" /></td>
+                            <td class="p-2 border border-gray-300"><p-checkbox [binary]="true" /></td>
                         </tr>
                     }
                 } @else {
                     @for (tarea of tareas; track tarea.idT) {
                         <tr class="hover:bg-gray-100">
                             <td class="p-2 border border-gray-300">{{tarea.nombreT}}</td>
-                            <td class="p-2 border border-gray-300">{{getColaboradores(tarea)}}</td>
+                            <td class="p-2 border border-gray-300">{{getColaboradores(tarea)}} <hr style="margin-bottom: 7px;"> </td>
                             <td class="p-2 border border-gray-300">{{formatDate(tarea.fechaInicio)}}</td>
                             <td class="p-2 border border-gray-300">{{formatDate(tarea.fechaFin)}}</td>
-                            <td class="p-2 border border-gray-300">{{getEtiquetas(tarea)}}<app-tag-picker></app-tag-picker></td>
+                            <td class="p-2 border border-gray-300">{{getEtiquetas(tarea)}} <hr style="margin-bottom: 7px;"> <app-tag-picker (onPick)="anadirEtiqueta(tarea, $event)"></app-tag-picker></td>
                             <td class="p-2 border border-gray-300">{{tarea.prioridad}}</td>
                             <td class="p-2 border border-gray-300">
                                 {{calcularEstado(tarea.fechaInicio, tarea.fechaFin, tarea.completado)}}
                             </td>
                             <td class="p-2 border border-gray-300"><p-progressbar [value]="calcularProgreso(tarea)" /></td>
+                            <td class="p-2 border border-gray-300"><p-checkbox [binary]="true" /></td>
                         </tr>
                     }
                 }

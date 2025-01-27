@@ -33,7 +33,6 @@ export class TagPickerComponent {
     }
 
     elegirEtiqueta(etiqueta: Etiqueta){
-      
       this.onPick.emit(etiqueta);
     }
 }
