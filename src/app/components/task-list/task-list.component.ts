@@ -123,6 +123,23 @@ export class TaskListComponent {
     return etiquetas;
   }
 
+  calcularEstado(fechaInicio: Date, fechaFin: Date, completado: boolean): string {
+    const dInicio = new Date(fechaInicio);
+    const dFin = new Date(fechaFin);
+    if(this.actual < dInicio && !completado) {
+      return "Pendiente";
+    }
+    else if (dFin > this.actual && dInicio < this.actual && !completado) {
+      return "En Curso";
+    }
+    else if(completado && this.actual > dFin) {
+      return "Completado";
+    }
+    else{
+      return "Atrasado";
+    }
+  }
+
   formatDate(fecha: Date): string {
     const d = new Date(fecha);
     return `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}`;
