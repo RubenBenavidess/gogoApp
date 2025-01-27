@@ -23,7 +23,6 @@ export class TagPickerComponent {
       // Suscripción al BehaviorSubject de etiquetas
       this.etiquetasService.etiquetas$.subscribe((etiquetas) => {
         this.etiquetas = etiquetas;
-        console.log(this.etiquetas);
       });
       
     }

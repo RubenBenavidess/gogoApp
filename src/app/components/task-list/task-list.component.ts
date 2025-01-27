@@ -77,15 +77,15 @@ export class TaskListComponent {
       let nuevasTareas: Tarea[] = [];
   
       if (this.estado.pendiente) {
-        nuevasTareas = nuevasTareas.concat(tareas.filter((tarea) => this.actual < tarea.fechaInicio && !tarea.completado));
+        nuevasTareas = nuevasTareas.concat(tareas.filter((tarea) => this.actual < new Date(tarea.fechaInicio) && !tarea.completado));
       }
     
       if (this.estado.enCurso) {
-        nuevasTareas = nuevasTareas.concat(tareas.filter(tarea => tarea.fechaFin > this.actual && tarea.fechaInicio < this.actual && !tarea.completado));
+        nuevasTareas = nuevasTareas.concat(tareas.filter(tarea => new Date(tarea.fechaFin) > this.actual && new Date(tarea.fechaInicio) < this.actual && !tarea.completado));
       }
     
       if (this.estado.completado) {
-        nuevasTareas = nuevasTareas.concat(tareas.filter(tarea => tarea.completado || this.actual > tarea.fechaFin));
+        nuevasTareas = nuevasTareas.concat(tareas.filter(tarea => tarea.completado || this.actual > new Date(tarea.fechaFin)));
       }
       
       tareasFiltro.splice(0, tareasFiltro.length, ...nuevasTareas); 
