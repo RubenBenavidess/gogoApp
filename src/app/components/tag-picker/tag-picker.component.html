@@ -3,6 +3,7 @@
     icon="pi pi-plus" 
     size="small"
     [rounded]="true"
+    (keydown.enter)="op.toggle($event)"
     aria-label="Añadir etiqueta"
 />
 <p-popover #op>
@@ -12,7 +13,7 @@
                 <li 
                     *ngFor="let etiqueta of etiquetas" 
                     class="flex items-center gap-1 px-1 py-2 hover:bg-emphasis cursor-pointer rounded-border text-sm"
-                    (click)="elegirEtiqueta(etiqueta)">
+                    (click)="elegirEtiqueta(etiqueta)" (keydown.enter)="elegirEtiqueta(etiqueta)">
                     <div>
                         <span class="font-medium">{{ etiqueta.nombreE }}</span>
                     </div>

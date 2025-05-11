@@ -109,7 +109,8 @@ export class TaskListComponent {
   }
 
   limpiarFiltradas(tareasFiltro: Tarea[]){
-    tareasFiltro = [];  
+    const tareasFiltroVacias: Tarea[] = [];
+    tareasFiltro = tareasFiltroVacias;  
   }
 
   limpiarAgrupadas(){
@@ -186,9 +187,6 @@ export class TaskListComponent {
     }
     else if (dFin > this.actual && dInicio < this.actual && !completado) {
       return "En Curso";
-    }
-    else if(completado && this.actual > dFin) {
-      return "Completado";
     }
     else if(dFin < this.actual && dInicio < this.actual && !completado){
       return "Atrasado";

@@ -52,29 +52,32 @@
                     label="Añadir colaborador" 
                     (click)="addColaborador()"
                     class="w-full"
+                    (keydown.enter)="addColaborador()"
                 ></p-button>
             </div>  
 
             <!-- Lista de Colaboradores -->
             <div class="p-field">
-                <label *ngIf="colaboradores.length > 0" class="block text-sm font-medium text-gray-700">Colaboradores:</label>
-                <div 
-                    class="overflow-y-auto max-h-28 p-3 space-y-2"
-                >
-                    <div *ngFor="let colaborador of colaboradores" 
-                        class="p-2 rounded-md shadow flex justify-between items-center">
-                        <span class="text-gray-700">{{ colaborador.nombreC }} - {{ colaborador.correo }}</span>
-                        <p-button 
-                            icon="pi pi-trash" 
-                            class="ml-2 p-button-text text-red-500 hover:text-red-700"
-                            (click)="removeColaborador(colaborador.idC)"
-                        ></p-button>
+                <p *ngIf="colaboradores.length > 0" class="block text-sm font-medium text-gray-700">Colaboradores:</p>
+                    <div 
+                        class="overflow-y-auto max-h-28 p-3 space-y-2"
+                    >
+                        <div *ngFor="let colaborador of colaboradores" 
+                            class="p-2 rounded-md shadow flex justify-between items-center">
+                            <span class="text-gray-700">{{ colaborador.nombreC }} - {{ colaborador.correo }}</span>
+                            <p-button 
+                                icon="pi pi-trash" 
+                                class="ml-2 p-button-text text-red-500 hover:text-red-700"
+                                (click)="removeColaborador(colaborador.idC)"
+                                (keydown.enter)="removeColaborador(colaborador.idC)"
+                            ></p-button>
+                        </div>
                     </div>
-                </div>
+                
             </div>
 
             <div class="p-field flex justify-center">
-                <p-button class="w-full" label="Crear Proyecto" (click)="createProject()"></p-button>
+                <p-button class="w-full" label="Crear Proyecto" (click)="createProject()" (keydown.enter)="createProject()"></p-button>
             </div>
         </form>
     </div>

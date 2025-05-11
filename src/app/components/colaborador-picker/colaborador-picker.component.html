@@ -3,6 +3,7 @@
     icon="pi pi-plus" 
     size="small"
     [rounded]="true"
+    (keydown.enter)="op.toggle($event)"
     aria-label="Añadir colaborador"
 />
 <p-popover #op>
@@ -12,7 +13,7 @@
                 <li 
                     *ngFor="let colaborador of colaboradoresDisponibles" 
                     class="flex items-center gap-1 px-1 py-2 hover:bg-emphasis cursor-pointer rounded-border text-sm"
-                    (click)="elegirColaborador(colaborador)">
+                    (click)="elegirColaborador(colaborador)" (keydown.enter)="elegirColaborador(colaborador)">
                     <div>
                         <span class="font-medium">{{ colaborador.nombreC }}</span>
                         <div class="text-sm text-surface-500 dark:text-surface-400">{{ colaborador.correo }}</div>

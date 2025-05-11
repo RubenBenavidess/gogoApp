@@ -14,28 +14,33 @@
     @if(filtrado) {
         <div class="flex gap-4 mb-4">
             <div class="flex items-center gap-2">
+                <label class="text-sm text-gray-700">Pendiente
                 <input type="checkbox" [(ngModel)]="estado.pendiente" (change)="filtrarTareas(tareasFiltradas, tareas); agrupacion.prioridad ? agruparTareas() : null" class="p-checkbox">
-                <label class="text-sm text-gray-700">Pendiente</label>
+                </label>
             </div>
             <div class="flex items-center gap-2">
+                <label class="text-sm text-gray-700">En curso
                 <input type="checkbox" [(ngModel)]="estado.enCurso" (change)="filtrarTareas(tareasFiltradas, tareas); agrupacion.prioridad ? agruparTareas() : null" class="p-checkbox">
-                <label class="text-sm text-gray-700">En curso</label>
+                </label>
             </div>
             <div class="flex items-center gap-2">
+                <label class="text-sm text-gray-700">Completado
                 <input type="checkbox" [(ngModel)]="estado.completado" (change)="filtrarTareas(tareasFiltradas, tareas); agrupacion.prioridad ? agruparTareas() : null" class="p-checkbox">
-                <label class="text-sm text-gray-700">Completado</label>
+                </label>
             </div>
             <div class="flex items-center gap-2">
+                <label class="text-sm text-gray-700">Atrasado
                 <input type="checkbox" [(ngModel)]="estado.atrasado" (change)="filtrarTareas(tareasFiltradas, tareas); agrupacion.prioridad ? agruparTareas() : null" class="p-checkbox">
-                <label class="text-sm text-gray-700">Atrasado</label>
+                </label>
             </div>
         </div>
     }
     @if(agrupado) {
         <div class="mb-4">
             <div class="flex items-center gap-2">
-                <input type="checkbox" [(ngModel)]="agrupacion.prioridad" (change)="agruparTareas()" class="p-checkbox">
-                <label class="text-sm text-gray-700">Prioridad</label>
+                <label for="checkPrioridadAgrup" class="text-sm text-gray-700">Prioridad
+                <input id="checkPrioridadAgrup" type="checkbox" [(ngModel)]="agrupacion.prioridad" (change)="agruparTareas()" class="p-checkbox">
+                </label>
             </div>
         </div>
     }

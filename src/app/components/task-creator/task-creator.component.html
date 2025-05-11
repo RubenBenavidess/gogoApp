@@ -14,7 +14,7 @@
                     placeholder="Elige un proyecto" 
                     class="w-full"
                 ></p-select>
-                <p-button (click)="showProjectCreator()" variant="text" label="Crear un Proyecto nuevo"></p-button>
+                <p-button (click)="showProjectCreator()" (keydown.enter)="showProjectCreator()" variant="text" label="Crear un Proyecto nuevo"></p-button>
             </div>
             
             <!-- Nombre de la Tarea -->
@@ -51,7 +51,7 @@
             
             <!-- Prioridad -->
             <div class="p-field">
-                <label for="prioridadTarea" hidden></label>
+                <label for="prioridadTarea" hidden>Prioridad de la tarea
                 <p-select 
                     id="prioridadTarea"
                     name="prioridadTarea"
@@ -61,11 +61,12 @@
                     placeholder="Define la prioridad de la tarea" 
                     class="w-full"
                 ></p-select>
+                </label>
             </div>
             
             <!-- Botón Submit -->
             <div class="p-field flex justify-center">
-                <p-button class="w-full" (click)="onSubmit()" label="Crear"></p-button>
+                <p-button class="w-full" (click)="onSubmit()" (keydown.enter)="onSubmit()" label="Crear"></p-button>
             </div>
         </form>
     </div>
